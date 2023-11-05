@@ -107,6 +107,9 @@ class IceCreamOrder:
                 final2 = Image.alpha_composite(final2, layer2)
             self.scoopImages[x] = final2
             self.scoopImages[x].show()
+        #containerImg = f'{self.orderContainer}.png'
+        #containerImg = Image.open(containerImg)
+        #containerImg.show()
 
 #Method
     #def finalOrder(self):
