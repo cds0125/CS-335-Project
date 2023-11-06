@@ -182,7 +182,7 @@ class IceCreamOrder:
             y -= 1
         #Check if a cherry is on top
         if self.orderToppings[0]  == "Cherry":
-            scoopStack = self.addCherry(scoopStack)
+            stack = self.addCherry(stack)
         self.iceCreamOrder = self.addStackContainer(stack)
         # Save this image 
         self.iceCreamOrder.save("order.png", format="png")
