@@ -256,4 +256,4 @@ class IceCreamOrder:
                 data, fs = sf.read('IceCreamMusicGameEnd.wav')
             case _:
                 data, fs = sf.read('IceCreamMusicLong4.wav')
-        sd.play(data,fs, loop = True)
+        sd.play(data,fs, loop = False)
