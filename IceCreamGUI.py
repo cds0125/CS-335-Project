@@ -1,7 +1,6 @@
 # By: Cassie Stevens 11/27/2023
 # Project for CS335
 # 'Ice Cream Parlor' Game
-
 from IceCreamOrder import * #Contains the class for taking orders and making the images for them, as well as maintaining user's selections
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
 from PyQt6.QtGui import QIcon, QFont, QPixmap
@@ -29,6 +28,8 @@ class IceCreamGUI(QMainWindow):
 #Method: Before the game starts UI
     def startMenu(self):
 #Start menu
+    #Play music
+        self.order.playMusic('game1')
     #Main Game Background
         #Create label
         self.gameBackground = QLabel(self)
@@ -302,6 +303,8 @@ class IceCreamGUI(QMainWindow):
         
 #Method: Action for startButton
     def startGame(self):
+    #Play menu music
+        self.order.playMusic('game2')
     #Hide and disable components of the start menu
         self.startButton.setEnabled(False)
         self.startButton.hide()
@@ -573,10 +576,12 @@ class IceCreamGUI(QMainWindow):
             self.gameEnd()
 #Method reset countdown back to 60 seconds         
     def reset_countdown(self):
-        self.countdown_thread.time_remaining = 5
+        self.countdown_thread.time_remaining = 60
 
 #Method: Game over screen
     def gameEnd(self):
+    #Play music
+        self.order.playMusic('gameOver')
         if self.order.score >= 5000:    #Success
             self.endScreenPixmap = QPixmap('Success.png')
             self.endScreen.setPixmap(self.endScreenPixmap)
@@ -585,6 +590,7 @@ class IceCreamGUI(QMainWindow):
             self.endScreenPixmap = QPixmap('Failure.png')
             self.endScreen.setPixmap(self.endScreenPixmap)
             self.endScreen.resize(self.endScreenPixmap.width(), self.endScreenPixmap.height())
+    #Display end screen
         self.endScreen.show()
         self.playAgainButton.show()
         self.returnToMenu.show()
@@ -625,7 +631,7 @@ class CountdownThread(QThread):
     
     def __init__(self, parent = None):
         super().__init__(parent)
-        self.time_remaining = 5
+        self.time_remaining = 60
     
 #Method: Run countdown
     def run(self):
