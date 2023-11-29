@@ -1137,10 +1137,11 @@ class IceCreamGUI(QMainWindow):
         self.endScreen.hide()
         self.playAgainButton.hide()
         self.returnToMenu.hide()
-        #Buttons overlapping
+        #Buttons/Labels overlapping
         self.noToppingsButton.hide()
         self.serveButton.hide()
         self.resetButton.hide()
+        self.yourIceCreamLabel.hide()
     #Show Start menu widgets
         self.pointsLabel.show()
         self.instructionsLabel.show()
