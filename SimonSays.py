@@ -1111,8 +1111,6 @@ class IceCreamGUI(QMainWindow):
 
 #Method: Game over screen
     def gameEnd(self):
-    #Play music
-        self.order.playMusic('gameOver')
         if self.order.score >= 5000:    #Success
             self.endScreenPixmap = QPixmap('Success.png')
             self.endScreen.setPixmap(self.endScreenPixmap)
