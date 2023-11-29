@@ -1,9 +1,10 @@
 # By: Cassie Stevens 11/3/2023
 # Project for CS335
 # 'Ice Cream Parlor' Game
-
 import random               #For randomizing
 from PIL import Image
+import sounddevice as sd    #For music
+import soundfile as sf      #For music
 
 class IceCreamOrder:
 #Constructor
@@ -14,9 +15,9 @@ class IceCreamOrder:
         self.orderNum  = 0
         self.streak = 0
         #The number of scoops in the order, which can be 1, 2, or 3 scoops
-        #Defaulting as 1, but will be randomly generated for each order
+        #Defaulting as 1, but will randomly generated for each order
         self.scoopNum   = 1
-        #To keep track of how many scoops are made by the user
+        #To keep track of how many scoops are made by user
         self.userScoopMaking = self.scoopNum
         
         #Default Order
@@ -81,7 +82,7 @@ class IceCreamOrder:
                 userScoop = Image.alpha_composite(userScoop, layer1)
                 userScoop = Image.alpha_composite(userScoop, layer2)
         userScoop.save("userScoop.png", format="png")
-        #Add user scoop images to the list
+        #Add user scoop images to list
         self.userScoops[self.userScoopMaking-1] = userScoop
                 
 #Method: Create the images for the ice cream scoops
@@ -122,7 +123,7 @@ class IceCreamOrder:
         stack = self.scoopImages[y-1]
         #Only combine scoops if there are more than one scoops in the order
         while y != 1: 
-            #Get the image for the bottom 2 scoops
+            #Get the image for bottom 2 scoops
             stack = self.getStackScoops(stack, self.scoopImages[y-2])
             #Decrease by 1 so that the next loop will get the 
             #stacked scoops image with the third scoop added
@@ -148,7 +149,7 @@ class IceCreamOrder:
         #Calculate width to be at the center
         #All scoops are the same size 
         width = 0
-        #Calculate the height to be at the center 
+        #Calculate height to be at the center 
         height = (addToStack.height)// 2
         scoopStack = Image.new('RGB', (iceCreamScoops.width, iceCreamScoops.height + height))
         #Paste onto the new image
@@ -166,7 +167,7 @@ class IceCreamOrder:
         cherry = cherry.convert("RGBA") 
         #Convert image to RGBA 
         iceCreamScoops = iceCreamScoops.convert("RGBA") 
-        #Calculate the width to be at the center 
+        #Calculate width to be at the center 
         #Had to adjust since the stem of the cherry moves it over some
         width = (iceCreamScoops.width - cherry.width) // 2 + 20
         #Calculate height of cherry 
@@ -206,9 +207,9 @@ class IceCreamOrder:
         y = self.scoopNum
         #Set the default as 1 scoop
         stack = self.scoopImages[y-1]
-        #Only combine scoops if there is more than one scoop in the order
+        #Only combine scoops if there are more than one scoop in the order
         while y != 1: 
-            #Get the image for the bottom 2 scoops
+            #Get the image for bottom 2 scoops
             stack = self.getStackScoops(stack, self.scoopImages[y-2])
             #Decrease by 1 so that the next loop will get the 
             #stacked scoops image with the third scoop added
@@ -230,7 +231,7 @@ class IceCreamOrder:
         self.userContainer  = ""
         self.userIceCream   = None
     
-#Method: Compare the user's ice cream to the order
+#Method: Compare user's ice cream to the order
     def compareIceCream(self):
         #Check the container matches
         if self.orderContainer == self.userContainer:   #Container is right
@@ -243,3 +244,16 @@ class IceCreamOrder:
         else:   #Container is wrong
             orderMatch = False
         return orderMatch
+    
+#Method: Play Music
+    def playMusic(self, music):
+        match music:
+            case 'game1':
+                data, fs = sf.read('IceCreamMusicLong1.wav')
+            case 'game2':
+                data, fs = sf.read('IceCreamMusicLong4.wav')
+            case 'gameOver':
+                data, fs = sf.read('IceCreamMusicGameEnd.wav')
+            case _:
+                data, fs = sf.read('IceCreamMusicLong4.wav')
+        sd.play(data,fs, loop = True)
