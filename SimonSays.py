@@ -635,9 +635,11 @@ class IceCreamGUI(QMainWindow):
         
 #User Scoops Images
     #Label for scoops
-        self.yourIceCreamLabel = QLabel("Your Ice Cream")
-        self.yourIceCreamLabel.setGeometry(614, 430, 191, 35)
+        self.yourIceCreamLabel = QLabel("Your Ice Cream", self)
+        self.yourIceCreamLabel.setGeometry(600, 430, 191, 35)
         self.yourIceCreamLabel.setFont(QFont('Times', 20))
+        self.yourIceCreamLabel.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.yourIceCreamLabel.hide()
         
     #Scoop Top Label
         self.scoopTop = QLabel(self)
@@ -863,6 +865,7 @@ class IceCreamGUI(QMainWindow):
         self.serveButton.show()
         self.orderImageLabel.show()
         self.noToppingsButton.show()
+        self.yourIceCreamLabel.show()
     #Countdown
         self.reset_countdown()  #Reset for new game
         self.countdown_thread.start()   #Start countdown
@@ -1101,6 +1104,7 @@ class IceCreamGUI(QMainWindow):
         elif time_remaining == 0: #Time ran out
             self.countdownLabel.setText(f"{time_remaining} seconds")
             self.gameEnd()
+
 #Method reset countdown back to 60 seconds         
     def reset_countdown(self):
         self.countdown_thread.time_remaining = 60
@@ -1124,6 +1128,8 @@ class IceCreamGUI(QMainWindow):
         
 #Method: Play the game again
     def playAgain(self):
+        sd.stop()
+        self.order.playMusic('game1')
     #Reset score, order number
         self.order.score = 0
         self.order.resetUserIceCream()
