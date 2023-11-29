@@ -1,8 +1,5 @@
 import random               #For randomizing
-import time
 from PIL import Image
-import sounddevice as sd    #For music
-import soundfile as sf      #For music
 
 class IceCreamOrder:
 #Constructor
@@ -13,9 +10,9 @@ class IceCreamOrder:
         self.orderNum  = 0
         self.streak = 0
         #The number of scoops in the order, which can be 1, 2, or 3 scoops
-        #Defaulting as 1, but will randomly generated for each order
+        #Defaulting as 1, but will be randomly generated for each order
         self.scoopNum   = 1
-        #To keep track of how many scoops are made by user
+        #To keep track of how many scoops are made by the user
         self.userScoopMaking = self.scoopNum
         
         #Default Order
@@ -80,36 +77,8 @@ class IceCreamOrder:
                 userScoop = Image.alpha_composite(userScoop, layer1)
                 userScoop = Image.alpha_composite(userScoop, layer2)
         userScoop.save("userScoop.png", format="png")
-        #Add user scoop images to list
+        #Add user scoop images to the list
         self.userScoops[self.userScoopMaking-1] = userScoop
-        
-
-#Method: Print the order
-    def printOrder(self):
-        #Instructions on how the ice cream scoops are stacked
-        if self.orderNum == 1:
-            print('Scoops are listed from top to bottom. Ex. Scoop 1 is the TOP scoop.\n')
-        else:
-            #Wait for 5 seconds between orders
-            print('\nTaking the next order...\n')
-            time.sleep(5)
-        #Print top of the order
-        #Includes: orderNum, number of scoops, and what the ice cream will be put in
-        if self.scoopNum == 1:
-            print(
-                f'Order #{self.orderNum}: {self.scoopNum} scoop in a {self.orderContainer.upper()} ↓'
-            )
-        else:
-            print(f'Order #{self.orderNum}: {self.scoopNum} scoops in a {self.orderContainer.upper()} ↓')
-        #For each scoop, print the ice cream flavor and the topping ('No Topping' if no topping)
-        print('#. Flavor \t    \t Topping')
-        #Get the order and print it
-        for x in range(self.scoopNum):
-            #An iteration loop to print the order
-            if self.orderToppings[x] == "Cherry":
-                print(f'{x + 1}. {self.orderFlavors[x]} \twith\t a {self.orderToppings[x]}')
-            else: 
-                print(f'{x + 1}. {self.orderFlavors[x]} \twith\t {self.orderToppings[x]}')
                 
 #Method: Create the images for the ice cream scoops
     def scoopImage(self):
@@ -149,7 +118,7 @@ class IceCreamOrder:
         stack = self.scoopImages[y-1]
         #Only combine scoops if there are more than one scoops in the order
         while y != 1: 
-            #Get the image for bottom 2 scoops
+            #Get the image for the bottom 2 scoops
             stack = self.getStackScoops(stack, self.scoopImages[y-2])
             #Decrease by 1 so that the next loop will get the 
             #stacked scoops image with the third scoop added
@@ -175,7 +144,7 @@ class IceCreamOrder:
         #Calculate width to be at the center
         #All scoops are the same size 
         width = 0
-        #Calculate height to be at the center 
+        #Calculate the height to be at the center 
         height = (addToStack.height)// 2
         scoopStack = Image.new('RGB', (iceCreamScoops.width, iceCreamScoops.height + height))
         #Paste onto the new image
@@ -193,7 +162,7 @@ class IceCreamOrder:
         cherry = cherry.convert("RGBA") 
         #Convert image to RGBA 
         iceCreamScoops = iceCreamScoops.convert("RGBA") 
-        #Calculate width to be at the center 
+        #Calculate the width to be at the center 
         #Had to adjust since the stem of the cherry moves it over some
         width = (iceCreamScoops.width - cherry.width) // 2 + 20
         #Calculate height of cherry 
@@ -233,9 +202,9 @@ class IceCreamOrder:
         y = self.scoopNum
         #Set the default as 1 scoop
         stack = self.scoopImages[y-1]
-        #Only combine scoops if there are more than one scoop in the order
+        #Only combine scoops if there is more than one scoop in the order
         while y != 1: 
-            #Get the image for bottom 2 scoops
+            #Get the image for the bottom 2 scoops
             stack = self.getStackScoops(stack, self.scoopImages[y-2])
             #Decrease by 1 so that the next loop will get the 
             #stacked scoops image with the third scoop added
@@ -257,15 +226,11 @@ class IceCreamOrder:
         self.userContainer  = ""
         self.userIceCream   = None
     
-#Method: Compare user's ice cream to the order
+#Method: Compare the user's ice cream to the order
     def compareIceCream(self):
         #Check the container matches
         if self.orderContainer == self.userContainer:   #Container is right
-            for x in range(self.scoopNum):  #Check flavors and toppings
-                print(self.orderFlavors[x])
-                print(self.userFlavors[x])   
-                print(self.orderToppings[x])
-                print(self.userToppings[x])         
+            for x in range(self.scoopNum):  #Check flavors and toppings        
                 if self.orderFlavors[x] == self.userFlavors[x] and self.orderToppings[x] == self.userToppings[x]:
                     orderMatch = True   #Scoop(s) is/are right
                 else: #Scoop(s) is/are wrong
@@ -274,16 +239,3 @@ class IceCreamOrder:
         else:   #Container is wrong
             orderMatch = False
         return orderMatch
-
-#Method: Play Music
-    def playMusic(self, music):
-        match music:
-            case 'game1':
-                data, fs = sf.read('IceCreamMusicLong1.wav')
-            case 'game2':
-                data, fs = sf.read('IceCreamMusicLong4.wav')
-            case 'bonus':
-                data, fs = sf.read('IceCreamMusicBonus1.wav')
-            case _:
-                data, fs = sf.read('IceCreamMusicLong4.wav')
-        sd.play(data,fs, loop = True)
