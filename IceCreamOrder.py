@@ -1,3 +1,7 @@
+# By: Cassie Stevens 11/3/2023
+# Project for CS335
+# 'Ice Cream Parlor' Game
+
 import random               #For randomizing
 from PIL import Image
 
