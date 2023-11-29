@@ -1,6 +1,7 @@
 # By: Cassie Stevens 11/27/2023
 # Project for CS335
 # 'Ice Cream Parlor' Game
+
 from IceCreamOrder import * #Contains the class for taking orders and making the images for them, as well as maintaining user's selections
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
 from PyQt6.QtGui import QIcon, QFont, QPixmap
