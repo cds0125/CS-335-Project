@@ -851,7 +851,16 @@ class IceCreamGUI(QMainWindow):
         self.chocolateChipsButton.setEnabled(False)
         self.noToppingsButton.setEnabled(False)
         self.resetButton.setEnabled(True)
-        self.serveButton.setEnabled(True)  
+        self.serveButton.setEnabled(True)
+    #Reset score, order number, and bonus points to be safe
+        self.order.score = 0
+        self.order.orderNum = 0
+        self.order.streak = 0
+    #Set order number and score
+        self.orderNumLabel.setText(str(self.order.orderNum))
+        self.scoreNum.setText(str(self.order.score))
+    #Resets the user's side of things
+        self.order.resetUserIceCream()
     #Get new ice cream order
         self.order.takeOrder()
         self.order.getFinalOrder()
@@ -1128,20 +1137,29 @@ class IceCreamGUI(QMainWindow):
     def playAgain(self):
         sd.stop()
         self.order.playMusic('game1')
-    #Reset score, order number
+    #Reset score, order number, and bonus points
         self.order.score = 0
-        self.order.resetUserIceCream()
         self.order.orderNum = 0
+        self.order.streak = 0
+    #Set order number and score
+        self.orderNumLabel.setText(str(self.order.orderNum))
+        self.scoreNum.setText(str(self.order.score))
+    #Resets the user's side of things
+        self.order.resetUserIceCream()
     #Hide Widgets
         #Game over screen
         self.endScreen.hide()
         self.playAgainButton.hide()
         self.returnToMenu.hide()
-        #Buttons/Labels overlapping
+        #Buttons overlapping
         self.noToppingsButton.hide()
         self.serveButton.hide()
         self.resetButton.hide()
         self.yourIceCreamLabel.hide()
+        self.scoopTop.hide()
+        self.scoopMiddle.hide()
+        self.scoopBottom.hide()
+        self.containerLabel.hide()
     #Show Start menu widgets
         self.pointsLabel.show()
         self.instructionsLabel.show()
