@@ -2,7 +2,7 @@
 # Project for CS335
 # 'Ice Cream Parlor' Game
 import random               #For randomizing
-from PIL import Image
+from PIL import Image       #For image processing; it was easier to layer the pngs this way
 import sounddevice as sd    #For music
 import soundfile as sf      #For music
 
@@ -252,8 +252,6 @@ class IceCreamOrder:
                 data, fs = sf.read('IceCreamMusicLong1.wav')
             case 'game2':
                 data, fs = sf.read('IceCreamMusicLong4.wav')
-            case 'gameOver':
-                data, fs = sf.read('IceCreamMusicGameEnd.wav')
             case _:
                 data, fs = sf.read('IceCreamMusicLong4.wav')
         sd.play(data,fs, loop = False)
